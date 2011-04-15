@@ -29,6 +29,18 @@ def fetch_page(lottery_no):
         items[9].find('br').tail    
         print line    
 
+def select_m_in_n(m, n):
+    if m > n:
+        return 0
+    else:
+        fenzi = 1
+        fenmu = 1
+        for i in range(m):
+            fenzi = fenzi * (n-i)
+            fenmu = fenmu * (m-i)            
+        return fenzi/fenmu
+
 if __name__ == '__main__':
-    fetch_page(sys.argv[1])
+    #fetch_page(sys.argv[1])
+    print select_m_in_n(5, 14)
     print 'finished'
