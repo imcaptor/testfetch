@@ -1,28 +1,33 @@
 # -*- coding: utf-8 -*-
 
 from lxml import html
-import string
+import string,sys
 
-html = html.parse('http://www.okooo.com/Lottery06/SoccerIndex.php?LotteryType=ToTo&LotteryNo=11038')
-link = html.getroot().xpath('//table[@id="TableBorder"]')
-footballs = link[0].xpath('//tr[@class="WhiteBg BlueWord" or @class="ContentLight BlueWord"]')
-for football in footballs:
-    items = football.findall("td")
-    caiguo = items[5].find('strong').text;
-    if not caiguo:
-        caiguo = '-'
-    line = items[0].text + '\t' + \
-    items[1].find('a').text +'\t'+ \
-    items[1].find('span').text.replace('\r\n', '').replace('\t', '') + '\t' + \
-    items[2].text.strip() + '\t' + \
-    items[2].find('span').text.replace('\r\n','').replace('\t', '') + '\t' + \
-    items[3].find('a').text + '\t' + \
-    items[3].find('span').text.replace('\r\n', '').replace('\t', '') + '\t' + \
-    items[4].text + '\t' + \
-    items[4].find('br').tail + '\t' + \
-    caiguo + '\t' + \
-    items[7].find('br').tail + '\t' + \
-    items[8].find('br').tail + '\t' + \
-    items[9].find('br').tail    
-    print line
-print 'finished'
+
+def fetch_page(lottery_no):    
+    page = html.parse('http://www.okooo.com/Lottery06/SoccerIndex.php?LotteryType=ToTo&LotteryNo=%s' % lottery_no)
+    link = page.getroot().xpath('//table[@id="TableBorder"]')
+    footballs = link[0].xpath('//tr[@class="WhiteBg BlueWord" or @class="ContentLight BlueWord"]')
+    for football in footballs:
+        items = football.findall("td")
+        caiguo = items[5].find('strong').text;
+        if not caiguo:
+            caiguo = '-'
+        line = items[0].text + '\t' + \
+        items[1].find('a').text +'\t'+ \
+        items[1].find('span').text.replace('\r\n', '').replace('\t', '') + '\t' + \
+        items[2].text.strip() + '\t' + \
+        items[2].find('span').text.replace('\r\n','').replace('\t', '') + '\t' + \
+        items[3].find('a').text + '\t' + \
+        items[3].find('span').text.replace('\r\n', '').replace('\t', '') + '\t' + \
+        items[4].text + '\t' + \
+        items[4].find('br').tail + '\t' + \
+        caiguo + '\t' + \
+        items[7].find('br').tail + '\t' + \
+        items[8].find('br').tail + '\t' + \
+        items[9].find('br').tail    
+        print line    
+
+if __name__ == '__main__':
+    fetch_page(sys.argv[1])
+    print 'finished'
