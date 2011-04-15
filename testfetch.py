@@ -3,6 +3,7 @@
 from lxml import html
 import string,sys
 
+##使用方法：python testfetch.py 11037
 
 def fetch_page(lottery_no):    
     page = html.parse('http://www.okooo.com/Lottery06/SoccerIndex.php?LotteryType=ToTo&LotteryNo=%s' % lottery_no)
